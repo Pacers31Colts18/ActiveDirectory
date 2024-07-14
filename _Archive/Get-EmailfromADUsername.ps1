@@ -1,0 +1,1 @@
+﻿Get-Content C:\temp\hardwareusers.txt | forEach { Get-ADUser $_ -properties EmailAddress} | select -ExpandProperty EmailAddress | Out-File c:\temp\hardwareusers.csv

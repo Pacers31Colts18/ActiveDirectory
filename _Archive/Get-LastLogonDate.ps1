@@ -1,0 +1,1 @@
+﻿Get-Content C:\Temp\Computers.txt | Get-ADComputer -Properties LastLogonDate | Sort LastLogonDate | FT Name, LastLogonDate -Autosize | Out-File c:\temp\ComputerLastLogonDate.txt

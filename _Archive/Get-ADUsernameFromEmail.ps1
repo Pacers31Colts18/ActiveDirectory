@@ -1,0 +1,1 @@
+﻿Get-Content C:\temp\users2.txt | ForEach-Object { Get-ADUser -Filter {EmailAddress -eq $_} -Properties DistinguishedName,Name,SamAccountName,DisplayName,EmailAddress,LastLogonDate,Enabled | Select-Object DistinguishedName,Name,SamAccountName,DisplayName,EmailAddress,LastLogonDate,Enabled  | Export-CSV C:\users_jan25.csv -Append }
