@@ -1,16 +1,30 @@
-# Tests Configuration manager client ports to Domain Controllers
-function Test-G46NetConnection {
+function Test-PortNetConnection {
+    <#
+    .Synopsis
+    Tests ports for connectivity. Used for AD port testing, but can be repurposed for other purposes. Default ports are listed, but can be customized with input.
+    .Description
+    Tests ports for connectivity. Used for AD port testing, but can be repurposed for other purposes. Default ports are listed, but can be customized with input.
+    .Example
+    Test-PortNetConnection -domains joeloveless.com
+    .Parameter Domains
+    Enter the domain name or leave blank to utilize Out-GridView selection.
+    .Parameter Ports
+    Not mandatory. Leaving blank will test against 53,88,135,137,139,389,445,464,636,3268,3269.
+    .Parameter DomainCSVPath
+    Not mandatory. If using multiple domains and do not want to type into an array, having a CSV file of the list of domains is useful for selection.
+    #> 
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory = $False)]
         [array]$Domains,
         [Parameter(Mandatory = $False)]
-        [array]$Ports = @(53,88,135,137,139,389,445,464,636,3268,3269)
-
+        [array]$Ports = @(53,88,135,137,139,389,445,464,636,3268,3269),
+        [Parameter(Mandatory = False)]
+        $DomainCSVPath
     )
 
     #region Parameter Logic
-    if ($Domains.Count -eq 0) { $Domains = (Import-CSV -path $global:DomainsFile | Out-GridView -PassThru).Title }   
+    if ($Domains.Count -eq 0) { $Domains = (Import-CSV -path $DomainCSVPath | Out-GridView -PassThru).Title }   
     #endregion
 
     #region Declarations
@@ -51,10 +65,10 @@ function Test-G46NetConnection {
     
         #Test if results file was created
         If (Test-Path $outputfilepath) {
-            Write-g46log -message "Results found. Results file=$outputfilepath."
+            Write-Output "Results found. Results file=$outputfilepath."
         }
         else {
-            Write-g46log -message "No results found." -level Warning
+            Write-Warning -message "No results found." -level Warning
         }
         #endregion
 }
