@@ -28,6 +28,7 @@ Export-g46ADOrganizationalUnits -Domains "example.com"
 
     #Get OU
     foreach ($domain in $domains) {
+            Write-Output "Processing domain: $domain"
         try {
             $ouList = Get-ADOrganizationalUnit -LDAPFilter '(name=*)' -Server $domain
         }
